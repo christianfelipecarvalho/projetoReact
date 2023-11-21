@@ -29,6 +29,7 @@ class Api implements IHttpClient<AxiosInstance>{
         })
     }
 
+
     async get(data: IDataRequest): Promise<IDataResponse>{
     try{
         let resp: AxiosResponse = await this.api.get(data.url, {
@@ -52,6 +53,44 @@ class Api implements IHttpClient<AxiosInstance>{
         message: "Error", 
         statusCode: 500,
             }
+        }
+    }
+    async post(data: IDataRequest): Promise<IDataResponse>{
+        try{
+            let resp: AxiosResponse = await this.api.post(data.url,data.data, {
+                headers: data.headers || {},
+            });
+            return {
+                data: resp.data,
+                message: resp.data.message || "OK",
+                statusCode: resp.status
+            }
+        }catch(e){
+            return {
+                data: null,
+                message: "Error",
+                statusCode: 500,
+            }
+        }
+    
+    }
+    async put(data: IDataRequest): Promise<IDataResponse> {
+        try{
+            let resp: AxiosResponse = await this.api.put(data.url, data.data,{
+                headers:data.headers
+            });
+            return {
+                data: resp.data,
+                message: resp.data.message || "OK",
+                statusCode: resp.status
+            }
+        }catch(e){
+            return {
+                data: null,
+                message: "Error",
+                statusCode: 500,
+            }
+
         }
     }
 }
